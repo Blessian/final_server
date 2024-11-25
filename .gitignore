@@ -262,7 +262,7 @@ poetry.toml
 pyrightconfig.json
 
 # database
-.db
-.ini
+*.db
+*.ini
 
 # End of https://www.toptal.com/developers/gitignore/api/python,flask,dotenv
