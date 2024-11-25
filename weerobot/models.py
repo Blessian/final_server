@@ -26,7 +26,7 @@ class User(Base):
 
     user_id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     station_id: Mapped[int] = mapped_column(ForeignKey("station.station_id"), nullable=False)
-    passowrd: Mapped[str] = mapped_column(String(100), nullable=False)
+    passoword: Mapped[str] = mapped_column(String(100), nullable=False)
     name: Mapped[str] = mapped_column(String(100), nullable=False)
     role: Mapped[str] = mapped_column(String(50), nullable=False, default="common")
     station: Mapped[Station] = relationship(backref="station")
@@ -34,7 +34,7 @@ class User(Base):
     def __repr__(self) -> str:
         return f"User(user_id={self.user_id!r}, \
             station_id={self.cctv_id!r}, \
-            passowrd={self.passowrd!r}, \
+            passoword={self.passoword!r}, \
             name={self.name!r}, \
             role={self.role!r})"
 
