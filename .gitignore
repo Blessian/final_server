@@ -264,5 +264,6 @@ pyrightconfig.json
 # database
 *.db
 *.ini
+config.py
 
 # End of https://www.toptal.com/developers/gitignore/api/python,flask,dotenv
