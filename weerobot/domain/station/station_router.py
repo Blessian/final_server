@@ -3,7 +3,6 @@ from typing import Any, List, Set, Dict, Tuple, Iterable, Callable, Sequence, Op
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
-import models
 from database import get_session
 from domain.station import station_schema, station_crud
 
