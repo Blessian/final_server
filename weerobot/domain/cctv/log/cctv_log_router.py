@@ -11,7 +11,7 @@ from domain.cctv.log import cctv_log_crud
 router: APIRouter = APIRouter(prefix="/weerobot/api/cctv/log")
 
 @router.post("/")
-def create_logv(cctv_log: cctv_log_schema.CCTVLogCreate, session: Session=Depends(get_session)) -> None:
+def create_log(cctv_log: cctv_log_schema.CCTVLogCreate, session: Session=Depends(get_session)) -> None:
     cctv_log_crud.create_log(session, cctv_log)
 
 @router.get("/", response_model=List[cctv_log_schema.CCTVLog])

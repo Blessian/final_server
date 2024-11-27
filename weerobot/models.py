@@ -107,10 +107,14 @@ class CCTVLog(Base):
     cctv_id: Mapped[int] = mapped_column(ForeignKey("cctv.cctv_id"), nullable=False)
     video_address: Mapped[str] = mapped_column(String(500), nullable=True)
     registerd: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=datetime.now(tz=timezone.utc), nullable=False)
+    x: Mapped[float] = mapped_column(nullable=False)
+    y: Mapped[float] = mapped_column(nullable=False)
     cctv: Mapped[CCTV] = relationship(backref="cctv_log")
     
     def __repr__(self) -> str:
         return f"CCTVLog(log_id={self.log_id!r}, \
             cctv_id={self.cctv_id!r}, \
             video_address={self.video_address!r}, \
-            registerd={self.registerd!r})"
+            registerd={self.registerd!r}), \
+            x={self.x!r}, \
+            y={self.y!r}"

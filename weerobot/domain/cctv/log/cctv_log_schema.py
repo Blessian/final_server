@@ -8,6 +8,8 @@ class CCTVLog(BaseModel):
     cctv_id: int
     vidio_address: str
     registered: datetime
+    x: float
+    y: float
 
     class Config:
         from_attributes: bool = True
@@ -15,6 +17,8 @@ class CCTVLog(BaseModel):
 
 class CCTVLogCreate(BaseModel):
     cctv_id: int
+    x: float
+    y: float
 
 
 class CCTVLogUpdate(CCTVLogCreate):

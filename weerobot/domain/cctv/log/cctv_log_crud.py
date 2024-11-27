@@ -10,6 +10,8 @@ from domain.cctv.log import cctv_log_schema
 def create_log(session: Session, cctv_log: cctv_log_schema.CCTVLogCreate) -> None:
     session.add(models.CCTVLog(
         cctv_id=cctv_log.cctv_id,
+        x=cctv_log.x,
+        y=cctv_log.y,
     ))
     session.commit()
 
