@@ -262,7 +262,7 @@ poetry.toml
 pyrightconfig.json
 
 # database
-__pycache__/
+*/__pycache__/
 migrations
 config.py
 *.pyc
