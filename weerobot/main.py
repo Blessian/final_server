@@ -55,7 +55,7 @@ def setup(session: Session=Depends(get_session)) -> None:
     robot_crud.create_robot(session, robot_obj)
     cctv_crud.create_cctv(session, cctv_obj)
 
-@app.get("/test")
+@app.get("/mqtt-test")
 async def func():
     fast_mqtt.publish("/mqtt_blessian", "Hello from Fastapi", 2)  # publishing mqtt topic
     return {"result": True, "message": "Published"}

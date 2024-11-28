@@ -19,9 +19,6 @@ def create_log(session: Session, robot_log: robot_log_schema.RobotLogCreate) -> 
 def read_all_logs(session: Session) -> List[robot_log_schema.RobotLog]:
     return session.query(models.RobotLog).all()
 
-def read_robot_logs(session: Session, robot_id: int) -> List[robot_log_schema.RobotLog]:
-    return session.query(models.RobotLog).filter(models.RobotLog.robot_id==robot_id).all()
-
 def read_one_log(session: Session, log_id: int) -> models.RobotLog:
     log_obj: models.RobotLog = session.get_one(models.RobotLog, log_id)
     if not log_obj:
@@ -41,3 +38,6 @@ def delete_log(session: Session, log_id: int) -> None:
     log_obj: models.RobotLog = read_one_log(session, log_id)
     session.delete(log_obj)
     session.commit()
+
+def read_robot_logs(session: Session, robot_id: int) -> List[robot_log_schema.RobotLog]:
+    return session.query(models.RobotLog).filter(models.RobotLog.robot_id==robot_id).all()

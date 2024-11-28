@@ -17,10 +17,6 @@ def create_log(robot_log: robot_log_schema.RobotLogCreate, session: Session=Depe
 def read_all_logs(session: Session=Depends(get_session)) -> List[robot_log_schema.RobotLog]:
     return robot_log_crud.read_all_logs(session)
 
-@router.get("/{robot_id}", response_model=List[robot_log_schema.RobotLog])
-def read_robot_logs(robot_id: int, session: Session=Depends(get_session)) -> List[robot_log_schema.RobotLog]:
-    return robot_log_crud.read_cctv_logs(session, robot_id)
-
 @router.get("/{log_id}", response_model=robot_log_schema.RobotLog)
 def read_one_log(log_id: int, session: Session=Depends(get_session)) -> robot_log_schema.RobotLog:
     return robot_log_crud.read_one_log(session, log_id)
@@ -32,3 +28,7 @@ def update_log(robot_log: robot_log_schema.RobotLogUpdate, session: Session=Depe
 @router.delete("/{log_id}")
 def delete_log(log_id: int, session: Session=Depends(get_session)) -> None:
     robot_log_crud.delete_log(session, log_id)
+    
+@router.get("/at/{robot_id}", response_model=List[robot_log_schema.RobotLog])
+def read_robot_logs(robot_id: int, session: Session=Depends(get_session)) -> List[robot_log_schema.RobotLog]:
+    return robot_log_crud.read_cctv_logs(session, robot_id)

@@ -8,15 +8,14 @@ from domain.cctv.log import cctv_log_schema
 from domain.robot import robot_crud
 
 
-def create_log(session: Session, cctv_log: cctv_log_schema.CCTVLogCreate) -> None:
+def create_log(session: Session, cctv_log: cctv_log_schema.CCTVLogCreate) -> int:
     session.add(models.CCTVLog(
         cctv_id=cctv_log.cctv_id,
         x=cctv_log.x,
         y=cctv_log.y,
     ))
     session.commit()
-
-    robot_crud.get_available_robot_id(session, s)
+    return robot_crud.get_available_robot_id(session)
 
 def read_all_logs(session: Session) -> List[cctv_log_schema.CCTVLog]:
     return session.query(models.CCTVLog).all()
