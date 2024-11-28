@@ -8,8 +8,11 @@ from domain.robot.log import robot_log_schema
 
 
 def create_log(session: Session, robot_log: robot_log_schema.RobotLogCreate) -> None:
+    robot: models.Robot = session.get(models.Robot, robot_log.robot_id)
+
     session.add(models.RobotLog(
-        robot_id=robot_log.robot_id
+        robot_id=robot_log.robot_id,
+        status=robot.status
     ))
     session.commit()
 
