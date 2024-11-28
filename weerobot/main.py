@@ -1,5 +1,3 @@
-from functools import partial
-
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 from gmqtt import Client as MQTTClient
@@ -11,11 +9,10 @@ from domain.cctv.log import cctv_log_router
 from domain.robot import robot_router
 from domain.robot.log import robot_log_router
 from domain.robot.log.chat import chat_router
-from utilities.mqtt_connection import _lifespan, get_fast_mqtt
+from utilities.mqtt_connection import _lifespan, fast_mqtt
 
 
-fast_mqtt: FastMQTT = get_fast_mqtt()
-app = FastAPI(lifespan=partial(_lifespan, fast_mqtt=fast_mqtt))
+app = FastAPI(lifespan=_lifespan)
 
 origins = [
     "http://localhost:94",

@@ -2,17 +2,21 @@ from typing import Any, List, Set, Dict, Tuple, Iterable, Callable, Optional, Un
 
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
+from fastapi_mqtt import FastMQTT
 
 from database import get_session
 from domain.cctv.log import cctv_log_schema
 from domain.cctv.log import cctv_log_crud
+from utilities.mqtt_connection import fast_mqtt
 
 
 router: APIRouter = APIRouter(prefix="/weerobot/api/cctv/log")
 
 @router.post("/")
-def create_log(cctv_log: cctv_log_schema.CCTVLogCreate, session: Session=Depends(get_session)) -> int:
-    return cctv_log_crud.create_log(session, cctv_log)
+async def create_log(cctv_log: cctv_log_schema.CCTVLogCreate, session: Session=Depends(get_session)) -> int:
+    robot_id: int = cctv_log_crud.create_log(session, cctv_log)
+    fast_mqtt.publish("/mqtt_blessian", "Hello from Fastapi", 2)
+    return robot_id
 
 @router.get("/", response_model=List[cctv_log_schema.CCTVLog])
 def read_all_logs(session: Session=Depends(get_session)) -> List[cctv_log_schema.CCTVLog]:
