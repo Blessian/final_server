@@ -7,9 +7,11 @@ import models
 from domain.cctv import cctv_schema
 
 
-def create_cctv(session: Session, cctv: cctv_schema.CCTV) -> None:
+def create_cctv(session: Session, cctv: cctv_schema.CCTVCreate) -> None:
     session.add(models.CCTV(
-        cctv_idx=cctv.cctv_idx
+        cctv_idx=cctv.cctv_idx,
+        latitude=cctv.latitude,
+        longitude=cctv.longitude
     ))
     session.commit()
 

@@ -49,8 +49,8 @@ router: APIRouter = APIRouter(prefix="/weerobot/api")
 
 @router.post("/setup")
 def setup(session: Session=Depends(get_session)) -> None:
-    cctv_obj: cctv_schema.CCTVCreate = cctv_schema.CCTVCreate(cctv_idx=0)
-    robot_obj: robot_schema.RobotCreate = robot_schema.RobotCreate(hostname="127.0.0.1")
+    cctv_obj: cctv_schema.CCTVCreate = cctv_schema.CCTVCreate(cctv_idx=0, latitude=37.5074223, longitude=127.0540299)
+    robot_obj: robot_schema.RobotCreate = robot_schema.RobotCreate()
 
     robot_crud.create_robot(session, robot_obj)
     cctv_crud.create_cctv(session, cctv_obj)
