@@ -1,5 +1,9 @@
+from functools import partial
+
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
+from gmqtt import Client as MQTTClient
+from fastapi_mqtt import FastMQTT, MQTTConfig
 
 from domain.station import station_router
 from domain.user import user_router
@@ -8,9 +12,11 @@ from domain.cctv.log import cctv_log_router
 from domain.robot import robot_router
 from domain.robot.log import robot_log_router
 from domain.robot.log.chat import chat_router
+from utilities.mqtt_connection import _lifespan, get_fast_mqtt
 
 
-app = FastAPI()
+fast_mqtt: FastMQTT = get_fast_mqtt()
+app = FastAPI(lifespan=partial(_lifespan, fast_mqtt=fast_mqtt))
 
 origins = [
     "http://localhost:94",
@@ -33,6 +39,7 @@ app.include_router(robot_log_router.router)
 app.include_router(chat_router.router)
 
 
+# TEST SETUP
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
@@ -52,5 +59,10 @@ def setup(session: Session=Depends(get_session)) -> None:
     station_crud.create_station(session, station_obj)
     robot_crud.create_robot(session, robot_obj)
     cctv_crud.create_cctv(session, cctv_obj)
+
+@app.get("/test")
+async def func():
+    fast_mqtt.publish("/mqtt_blessian", "Hello from Fastapi", 2)  # publishing mqtt topic
+    return {"result": True, "message": "Published"}
 
 app.include_router(router)
