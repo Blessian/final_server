@@ -9,10 +9,7 @@ from domain.robot.log import robot_log_crud
 
 
 def create_robot(session: Session, robot: robot_schema.RobotCreate) -> None:
-    robot_created: models.Robot = models.Robot(
-        station_id=robot.station_id,
-        hostname=robot.hostname
-    )
+    robot_created: models.Robot = models.Robot()
     session.add(robot_created)
     session.commit()
     session.refresh(robot_created)
@@ -20,9 +17,6 @@ def create_robot(session: Session, robot: robot_schema.RobotCreate) -> None:
 
 def read_all_robots(session: Session) -> List[models.Robot]:
     return session.query(models.Robot).all()
-
-def read_station_robots(session: Session, station_id: int) -> List[models.Robot]:
-    return session.query(models.Robot).filter(models.Robot.station_id==station_id).all()
 
 def read_one_robot(session: Session, robot_id: int) -> models.Robot:
     robot_obj: models.Robot = session.get_one(models.Robot, robot_id)
@@ -43,3 +37,7 @@ def delete_Robot(session: Session, robot_id: int) -> None:
     robot_obj: models.Robot = read_one_robot(session, robot_id)
     session.delete(robot_obj)
     session.commit()
+
+def get_available_robot_id(session: Session) -> int:
+    robot: models.Robot = session.query(models.Robot).order_by(models.Robot.status.asc()).first()
+    return robot.robot_id

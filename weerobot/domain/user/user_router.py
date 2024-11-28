@@ -17,10 +17,6 @@ def create_user(user: user_schema.UserCreate, session: Session=Depends(get_sessi
 def read_all_users(session: Session=Depends(get_session)) -> List[user_schema.User]:
     return user_crud.read_all_users(session)
 
-@router.get("/{station_id}", response_model=List[user_schema.User])
-def read_station_users(station_id: int, session: Session=Depends(get_session)) -> List[user_schema.User]:
-    return user_crud.read_station_users(session, station_id)
-
 @router.get("/{user_id}", response_model=user_schema.User)
 def read_one_user(user_id: int, session: Session=Depends(get_session)) -> user_schema.User:
     return user_crud.read_one_user(session, user_id)

@@ -5,6 +5,7 @@ from sqlalchemy.orm import Session
 
 import models
 from domain.cctv.log import cctv_log_schema
+from domain.robot import robot_crud
 
 
 def create_log(session: Session, cctv_log: cctv_log_schema.CCTVLogCreate) -> None:
@@ -14,6 +15,8 @@ def create_log(session: Session, cctv_log: cctv_log_schema.CCTVLogCreate) -> Non
         y=cctv_log.y,
     ))
     session.commit()
+
+    robot_crud.get_available_robot_id(session, s)
 
 def read_all_logs(session: Session) -> List[cctv_log_schema.CCTVLog]:
     return session.query(models.CCTVLog).all()

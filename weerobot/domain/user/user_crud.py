@@ -19,9 +19,6 @@ def create_user(session: Session, user: user_schema.UserCreate) -> None:
 def read_all_users(session: Session) -> List[models.User]:
     return session.query(models.User).all()
 
-def read_station_users(session: Session, station_id: int) -> List[models.User]:
-    return session.query(models.User).filter(models.User.station_id==station_id).all()
-
 def read_one_user(session: Session, user_id: int) -> models.User:
     user_obj: models.User = session.get_one(models.User, user_id)
     if not user_obj:

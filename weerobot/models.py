@@ -6,34 +6,16 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from database import Base
 
 
-class Station(Base):
-    __tablename__: str = "station"
-
-    station_id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    name: Mapped[str] = mapped_column(String(100), nullable=False)
-    latitude: Mapped[float] = mapped_column(nullable=False)
-    longitude: Mapped[float] = mapped_column(nullable=False)
-
-    def __repr__(self) -> str:
-        return f"Station(station_id={self.station_id!r}, \
-            name={self.name!r}, \
-            latitude={self.latitude!r}, \
-            longitude={self.longitude!r})"
-
-
 class User(Base):
     __tablename__: str = "user"
 
     user_id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    station_id: Mapped[int] = mapped_column(ForeignKey("station.station_id"), nullable=False)
     passoword: Mapped[str] = mapped_column(String(100), nullable=False)
     name: Mapped[str] = mapped_column(String(100), nullable=False)
     role: Mapped[str] = mapped_column(String(50), nullable=False, default="common")
-    station: Mapped[Station] = relationship(backref="station")
 
     def __repr__(self) -> str:
         return f"User(user_id={self.user_id!r}, \
-            station_id={self.cctv_id!r}, \
             passoword={self.passoword!r}, \
             name={self.name!r}, \
             role={self.role!r})"
@@ -43,14 +25,11 @@ class Robot(Base):
     __tablename__: str = "robot"
 
     robot_id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    station_id: Mapped[int] = mapped_column(ForeignKey("station.station_id"), nullable=False)
-    hostname: Mapped[str] = mapped_column(String(50), nullable=False)
-    station: Mapped[Station] = relationship(backref="robot")
+    status: Mapped[int] = mapped_column(nullable=False, default=0)
 
     def __repr__(self) -> str:
         return f"Robot(robot_id={self.robot_id!r}, \
-            station_id={self.station_id!r}, \
-            hostname={self.hostname!r}"
+            status={self.status!r}"
 
 
 class RobotLog(Base):
@@ -59,7 +38,7 @@ class RobotLog(Base):
     log_id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     robot_id: Mapped[int] = mapped_column(ForeignKey("robot.robot_id"), nullable=False)
     video_address: Mapped[str] = mapped_column(String(500), nullable=True)
-    status: Mapped[int] = mapped_column(nullable=False, default=0)
+    status: Mapped[int] = mapped_column(nullable=False)
     registerd: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=datetime.now(tz=timezone.utc), nullable=False)
     robot: Mapped[Robot] = relationship(backref="robot_log")
 
@@ -90,14 +69,15 @@ class CCTV(Base):
     __tablename__: str = "cctv"
 
     cctv_id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    station_id: Mapped[int] = mapped_column(ForeignKey("station.station_id"), nullable=False)
     cctv_idx: Mapped[int] = mapped_column(nullable=False)
-    station: Mapped[Station] = relationship(backref="cctv")
+    latitude: Mapped[float] = mapped_column(nullable=False)
+    longitude: Mapped[float] = mapped_column(nullable=False)
 
     def __repr__(self) -> str:
         return f"CCTV(cctv_id={self.cctv_id!r}, \
-            station_id={self.station_id!r}, \
-            cctv_idx={self.cctv_idx!r}"
+            cctv_idx={self.cctv_idx!r}, \
+            latitude={self.latitude!r}, \
+            longitude={self.longitude!r})"
 
 
 class CCTVLog(Base):

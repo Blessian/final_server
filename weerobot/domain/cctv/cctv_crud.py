@@ -9,16 +9,12 @@ from domain.cctv import cctv_schema
 
 def create_cctv(session: Session, cctv: cctv_schema.CCTV) -> None:
     session.add(models.CCTV(
-        station_id=cctv.station_id,
         cctv_idx=cctv.cctv_idx
     ))
     session.commit()
 
 def read_all_cctvs(session: Session) -> List[cctv_schema.CCTV]:
     return session.query(models.CCTV).all()
-
-def read_station_cctvs(session: Session, station_id: int) -> List[cctv_schema.CCTV]:
-    return session.query(models.CCTV).filter(models.CCTV.station_id==station_id).all()
 
 def read_one_cctv(session: Session, cctv_id: int) -> models.CCTV:
     cctv_obj: models.CCTV = session.get_one(models.CCTV, cctv_id)

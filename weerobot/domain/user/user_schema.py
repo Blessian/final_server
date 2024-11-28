@@ -3,7 +3,6 @@ from pydantic import BaseModel
 
 class User(BaseModel):
     user_id: str
-    station_id: int
     password: str
     name: str
     role: str
@@ -13,7 +12,6 @@ class User(BaseModel):
 
 
 class UserCreate(BaseModel):
-    station_id: int
     password: str
     name: str
     role: str

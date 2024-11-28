@@ -17,10 +17,6 @@ def create_robot(robot: robot_schema.RobotCreate, session: Session=Depends(get_s
 def read_all_robots(session: Session=Depends(get_session)) -> List[robot_schema.Robot]:
     return robot_crud.read_all_robots(session)
 
-@router.get("/{station_id}", response_model=List[robot_schema.Robot])
-def read_station_robots(station_id: int, session: Session=Depends(get_session)) -> List[robot_schema.Robot]:
-    return robot_crud.read_station_robots(session, station_id)
-
 @router.get("/{robot_id}", response_model=robot_schema.Robot)
 def read_one_robot(robot_id: int, session: Session=Depends(get_session)) -> robot_schema.Robot:
     return robot_crud.read_one_robot(session, robot_id)
