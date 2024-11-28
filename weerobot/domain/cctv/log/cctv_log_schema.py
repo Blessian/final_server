@@ -6,7 +6,7 @@ from pydantic import BaseModel
 class CCTVLog(BaseModel):
     log_id: int
     cctv_id: int
-    vidio_address: str
+    video_address: str
     registered: datetime
     x: float
     y: float
