@@ -8,14 +8,17 @@ from domain.cctv.log import cctv_log_schema
 from domain.robot import robot_crud
 
 
-def create_log(session: Session, cctv_log: cctv_log_schema.CCTVLogCreate) -> int:
-    session.add(models.CCTVLog(
+def create_log(session: Session, cctv_log: cctv_log_schema.CCTVLogCreate) -> Dict[str, Union[int, float]]:
+    cctv_log: models.CCTVLog = models.CCTVLog(
         cctv_id=cctv_log.cctv_id,
         x=cctv_log.x,
         y=cctv_log.y,
-    ))
+    )
+    session.add(cctv_log)
     session.commit()
-    return robot_crud.get_available_robot_id(session)
+    session.refresh(cctv_log)
+    robot_id: int = robot_crud.get_available_robot_id(session)
+    return {"robot_id": robot_id, "x": cctv_log.x, "y": cctv_log.y}
 
 def read_all_logs(session: Session) -> List[cctv_log_schema.CCTVLog]:
     return session.query(models.CCTVLog).all()

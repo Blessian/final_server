@@ -14,9 +14,9 @@ router: APIRouter = APIRouter(prefix="/weerobot/api/cctv/log")
 
 @router.post("/")
 async def create_log(cctv_log: cctv_log_schema.CCTVLogCreate, session: Session=Depends(get_session)) -> int:
-    robot_id: int = cctv_log_crud.create_log(session, cctv_log)
-    fast_mqtt.publish("/mqtt_blessian", "Hello from Fastapi", 2)
-    return robot_id
+    result_dict: Dict[str, Union[int, float]] = cctv_log_crud.create_log(session, cctv_log)
+    fast_mqtt.publish("/weerobot/robot_id/goal", f"{result_dict['x']} {result_dict['y']}", 2)
+    return result_dict["robot_id"]
 
 @router.get("/", response_model=List[cctv_log_schema.CCTVLog])
 def read_all_logs(session: Session=Depends(get_session)) -> List[cctv_log_schema.CCTVLog]:
