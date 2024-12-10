@@ -1,4 +1,4 @@
-import create from 'zustand';
+import { create } from 'zustand';  // 수정된 부분
 
 export const useStore = create((set) => ({
   videoModalOpen: false,
