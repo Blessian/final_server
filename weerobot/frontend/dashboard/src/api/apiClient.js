@@ -40,5 +40,5 @@ export const apiClient = {
   getCCTVs: () => axiosInstance.get('/cctv/'),
   getCCTVLogs: () => axiosInstance.get('/cctv/log/'),
   getRobotLogs: () => axiosInstance.get('/robot/log/'),
-  getChatLogs: (robotId) => axiosInstance.get(`/robot/log/chat/${robotId}`),
+  getChatLogs: () => axiosInstance.get(`/robot/log/chat/`),
 };

@@ -15,7 +15,7 @@ def create_log(session: Session, chat_log: chat_schema.ChatLogCreate) -> None:
     session.commit()
 
 def read_chats(session: Session) -> List[chat_schema.ChatLog]:
-    return session.query(models.ChatLog).all()
+    return session.query(models.ChatLog).order_by(models.ChatLog.registered.desc()).all()
 
 def read_log_chats(session: Session, robot_id: int) -> List[chat_schema.ChatLog]:
     return session.query(models.ChatLog).filter(models.ChatLog.robot_id==robot_id).all()

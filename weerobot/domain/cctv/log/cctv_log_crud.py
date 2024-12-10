@@ -21,7 +21,7 @@ def create_log(session: Session, cctv_log: cctv_log_schema.CCTVLogCreate) -> Dic
     return {"robot_id": robot_id, "x": cctv_log.x, "y": cctv_log.y}
 
 def read_all_logs(session: Session) -> List[cctv_log_schema.CCTVLog]:
-    return session.query(models.CCTVLog).all()
+    return session.query(models.CCTVLog).order_by(models.CCTVLog.registered.desc()).all()
 
 def read_cctv_logs(session: Session, cctv_id: int) -> List[cctv_log_schema.CCTVLog]:
     return session.query(models.CCTVLog).filter(models.CCTVLog.cctv_id==cctv_id).all()

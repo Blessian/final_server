@@ -23,7 +23,7 @@ def create_log(session: Session, robot_log: robot_log_schema.RobotLogCreate) -> 
     session.commit()
 
 def read_all_logs(session: Session) -> List[robot_log_schema.RobotLog]:
-    return session.query(models.RobotLog).all()
+    return session.query(models.RobotLog).order_by(models.RobotLog.registered.desc()).all()
 
 def read_one_log(session: Session, log_id: int) -> models.RobotLog:
     log_obj: models.RobotLog = session.get_one(models.RobotLog, log_id)
