@@ -1,3 +1,4 @@
+from typing import Optional
 from datetime import datetime
 
 from pydantic import BaseModel
@@ -6,7 +7,7 @@ from pydantic import BaseModel
 class CCTVLog(BaseModel):
     log_id: int
     cctv_id: int
-    video_address: str
+    video_address: Optional[str]
     registered: datetime
     x: float
     y: float

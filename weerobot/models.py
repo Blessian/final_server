@@ -39,7 +39,7 @@ class RobotLog(Base):
     robot_id: Mapped[int] = mapped_column(ForeignKey("robot.robot_id"), nullable=False)
     video_address: Mapped[str] = mapped_column(String(500), nullable=True)
     status: Mapped[int] = mapped_column(nullable=False)
-    registerd: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=datetime.now(tz=timezone.utc), nullable=False)
+    registered: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=datetime.now(tz=timezone.utc), nullable=False)
     robot: Mapped[Robot] = relationship(backref="robot_log")
 
     def __repr__(self) -> str:
@@ -54,9 +54,9 @@ class ChatLog(Base):
     __tablename__: str = "chat_log"
 
     log_id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    robot_log_id: Mapped[int] = mapped_column(ForeignKey("robot_log.log_id"), nullable=False)
+    robot_id: Mapped[int] = mapped_column(ForeignKey("robot_log.log_id"), nullable=False)
     content: Mapped[str] = mapped_column(String(1000), nullable=True)
-    robot_log: Mapped[RobotLog] = relationship(backref="chat_log")
+    registered: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=datetime.now(tz=timezone.utc), nullable=False)
 
     def __repr__(self) -> str:
         return f"ChatLog(log_id={self.call_log_id!r}, \

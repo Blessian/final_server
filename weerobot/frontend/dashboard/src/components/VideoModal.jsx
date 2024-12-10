@@ -1,9 +1,10 @@
-import { Modal, Box, IconButton } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
+import React from 'react';
+import { Modal, Box } from '@mui/material';
 import { useStore } from '../hooks/useStore';
 
 function VideoModal() {
-  const { videoModalOpen, setVideoModalOpen, currentVideo } = useStore();
+  console.log('VideoModal rendered'); // 디버깅용 로그
+  const { videoModalOpen, setVideoModalOpen } = useStore();
 
   return (
     <Modal
@@ -18,28 +19,12 @@ function VideoModal() {
           left: '50%',
           transform: 'translate(-50%, -50%)',
           width: '80%',
-          maxWidth: 800,
           bgcolor: 'background.paper',
           boxShadow: 24,
           p: 4,
-          borderRadius: 2,
         }}
       >
-        <IconButton
-          sx={{ position: 'absolute', right: 8, top: 8 }}
-          onClick={() => setVideoModalOpen(false)}
-        >
-          <CloseIcon />
-        </IconButton>
-        <Box sx={{ width: '100%', aspectRatio: '16/9', bgcolor: 'black' }}>
-          {currentVideo && (
-            <img
-              src={`data:image/jpeg;base64,${currentVideo}`}
-              alt="CCTV Stream"
-              style={{ width: '100%', height: '100%', objectFit: 'contain' }}
-            />
-          )}
-        </Box>
+        <div>Video Content</div>
       </Box>
     </Modal>
   );

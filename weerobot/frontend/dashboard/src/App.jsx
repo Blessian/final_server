@@ -7,10 +7,11 @@ import CCTVSection from './components/CCTVSection';
 import DataSection from './components/DataSection';
 import VideoModal from './components/VideoModal';
 
+// 테마 설정
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#4dd0e1', // mint green
+      main: '#4dd0e1',
     },
     background: {
       default: '#e0f7fa',
@@ -18,14 +19,17 @@ const theme = createTheme({
   },
 });
 
+// QueryClient 설정
 const queryClient = new QueryClient();
 
 function App() {
+  console.log('App component rendered'); // 디버깅용 로그
+
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <Box sx={{ display: 'flex', height: '100vh' }}>
+        <Box sx={{ display: 'flex', height: '100vh', p: 2 }}>
           <CCTVSection />
           <DataSection />
           <VideoModal />

@@ -1,26 +1,19 @@
+import React from 'react';
 import { Box, Paper, Typography } from '@mui/material';
-import { useSocket } from '../hooks/useSocket';
 
 function CCTVSection() {
-  useSocket(); // 소켓 연결 설정
+  console.log('CCTVSection rendered'); // 디버깅용 로그
 
   return (
-    <Box sx={{ flex: 1, p: 2 }}>
-      <Paper
-        elevation={3}
-        sx={{
-          height: '100%',
-          display: 'flex',
-          flexDirection: 'column',
-          p: 2,
-        }}
-      >
-        <Typography variant="h5" gutterBottom>
+    <Box sx={{ flex: 1, mr: 2 }}>
+      <Paper elevation={3} sx={{ height: '100%', p: 2 }}>
+        <Typography variant="h6" gutterBottom>
           CCTV Monitoring
         </Typography>
         <Box
           sx={{
-            flex: 1,
+            width: '100%',
+            height: 'calc(100% - 40px)',
             bgcolor: 'black',
             display: 'flex',
             alignItems: 'center',

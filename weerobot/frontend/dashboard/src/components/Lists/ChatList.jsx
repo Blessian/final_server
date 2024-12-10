@@ -1,24 +1,34 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useQuery } from 'react-query';
 import { 
   List, 
   ListItem, 
   ListItemText, 
   Paper, 
-  TextField, 
-  MenuItem 
+  CircularProgress,
+  TextField,
+  MenuItem
 } from '@mui/material';
 import { apiClient } from '../../api/apiClient';
 
 function ChatList() {
   const [selectedRobotId, setSelectedRobotId] = useState(0);
-  
-  const { data: chatLogs, isLoading } = useQuery(
+
+  const { data, isLoading, isError } = useQuery(
     ['chatLogs', selectedRobotId],
-    () => apiClient.getChatLogs(selectedRobotId)
+    async () => {
+      const response = await apiClient.getChatLogs(selectedRobotId);
+      return response.data;
+    }
   );
 
-  if (isLoading) return 'Loading...';
+  if (isLoading) {
+    return <CircularProgress />;
+  }
+
+  if (isError) {
+    return <div>Error loading chat logs</div>;
+  }
 
   return (
     <>
@@ -30,12 +40,11 @@ function ChatList() {
         fullWidth
         sx={{ mb: 2 }}
       >
-        <MenuItem value={0}>Robot 0</MenuItem>
         <MenuItem value={1}>Robot 1</MenuItem>
       </TextField>
-      
+
       <List>
-        {chatLogs?.data.map((log) => (
+        {data?.map((log) => (
           <Paper key={log.log_id} sx={{ mb: 1 }}>
             <ListItem>
               <ListItemText

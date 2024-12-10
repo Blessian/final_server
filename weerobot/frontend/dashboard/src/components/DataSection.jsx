@@ -1,5 +1,5 @@
-import { Box, Paper, Tabs, Tab } from '@mui/material';
-import { useState } from 'react';
+import React from 'react';
+import { Box, Paper, Typography, Divider } from '@mui/material';
 import RobotList from './Lists/RobotList';
 import CCTVList from './Lists/CCTVList';
 import CCTVLogList from './Lists/CCTVLogList';
@@ -7,28 +7,42 @@ import RobotLogList from './Lists/RobotLogList';
 import ChatList from './Lists/ChatList';
 
 function DataSection() {
-  const [tabValue, setTabValue] = useState(0);
-
   return (
-    <Box sx={{ flex: 1, p: 2 }}>
-      <Paper elevation={3} sx={{ height: '100%', p: 2 }}>
-        <Tabs
-          value={tabValue}
-          onChange={(e, newValue) => setTabValue(newValue)}
-        >
-          <Tab label="Robots" />
-          <Tab label="CCTVs" />
-          <Tab label="CCTV Logs" />
-          <Tab label="Robot Logs" />
-          <Tab label="Chat" />
-        </Tabs>
-        <Box sx={{ mt: 2, height: 'calc(100% - 48px)', overflow: 'auto' }}>
-          {tabValue === 0 && <RobotList />}
-          {tabValue === 1 && <CCTVList />}
-          {tabValue === 2 && <CCTVLogList />}
-          {tabValue === 3 && <RobotLogList />}
-          {tabValue === 4 && <ChatList />}
-        </Box>
+    <Box sx={{ flex: 1 }}>
+      <Paper elevation={3} sx={{ height: '100%', p: 2, overflow: 'auto' }}>
+        {/* Robots Section */}
+        <Typography variant="h6" gutterBottom sx={{ color: '#4dd0e1' }}>
+          Robots
+        </Typography>
+        <RobotList />
+        <Divider sx={{ my: 2 }} />
+
+        {/* CCTVs Section */}
+        <Typography variant="h6" gutterBottom sx={{ color: '#4dd0e1' }}>
+          CCTVs
+        </Typography>
+        <CCTVList />
+        <Divider sx={{ my: 2 }} />
+
+        {/* CCTV Logs Section */}
+        <Typography variant="h6" gutterBottom sx={{ color: '#4dd0e1' }}>
+          CCTV Logs
+        </Typography>
+        <CCTVLogList />
+        <Divider sx={{ my: 2 }} />
+
+        {/* Robot Logs Section */}
+        <Typography variant="h6" gutterBottom sx={{ color: '#4dd0e1' }}>
+          Robot Logs
+        </Typography>
+        <RobotLogList />
+        <Divider sx={{ my: 2 }} />
+
+        {/* Chat Section */}
+        <Typography variant="h6" gutterBottom sx={{ color: '#4dd0e1' }}>
+          Chat
+        </Typography>
+        <ChatList />
       </Paper>
     </Box>
   );

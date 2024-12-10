@@ -13,7 +13,7 @@ from utilities.mqtt_connection import _lifespan, fast_mqtt
 app = FastAPI(lifespan=_lifespan)
 
 origins = [
-    "http://localhost:5731",
+    "http://localhost:5173",
 ]
 
 app.add_middleware(

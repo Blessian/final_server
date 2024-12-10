@@ -1,15 +1,25 @@
+import React from 'react';
 import { useQuery } from 'react-query';
-import { List, ListItem, ListItemText, Paper } from '@mui/material';
+import { List, ListItem, ListItemText, Paper, CircularProgress } from '@mui/material';
 import { apiClient } from '../../api/apiClient';
 
 function RobotLogList() {
-  const { data: logs, isLoading } = useQuery('robotLogs', apiClient.getRobotLogs);
+  const { data, isLoading, isError } = useQuery('robotLogs', async () => {
+    const response = await apiClient.getRobotLogs();
+    return response.data;
+  });
 
-  if (isLoading) return 'Loading...';
+  if (isLoading) {
+    return <CircularProgress />;
+  }
+
+  if (isError) {
+    return <div>Error loading robot logs</div>;
+  }
 
   return (
     <List>
-      {logs?.data.map((log) => (
+      {data?.map((log) => (
         <Paper key={log.log_id} sx={{ mb: 1 }}>
           <ListItem>
             <ListItemText

@@ -1,15 +1,25 @@
+import React from 'react';
 import { useQuery } from 'react-query';
-import { List, ListItem, ListItemText, Paper } from '@mui/material';
+import { List, ListItem, ListItemText, Paper, CircularProgress } from '@mui/material';
 import { apiClient } from '../../api/apiClient';
 
 function CCTVLogList() {
-  const { data: logs, isLoading } = useQuery('cctvLogs', apiClient.getCCTVLogs);
+  const { data, isLoading, isError } = useQuery('cctvLogs', async () => {
+    const response = await apiClient.getCCTVLogs();
+    return response.data;
+  });
 
-  if (isLoading) return 'Loading...';
+  if (isLoading) {
+    return <CircularProgress />;
+  }
+
+  if (isError) {
+    return <div>Error loading CCTV logs</div>;
+  }
 
   return (
     <List>
-      {logs?.data.map((log) => (
+      {data?.map((log) => (
         <Paper key={log.log_id} sx={{ mb: 1 }}>
           <ListItem>
             <ListItemText
