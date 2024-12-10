@@ -4,11 +4,17 @@ from fastapi import HTTPException
 from sqlalchemy.orm import Session
 
 import models
+from domain.robot import robot_crud, robot_schema
 from domain.robot.log import robot_log_schema
 
 
 def create_log(session: Session, robot_log: robot_log_schema.RobotLogCreate) -> None:
     robot: models.Robot = session.get(models.Robot, robot_log.robot_id)
+    robot_update: robot_schema.RobotUpdate = robot_schema.RobotUpdate(
+        robot_id=robot.robot_id,
+        status=robot.status
+    )
+    robot = robot_crud.update_robot(session, robot_update)
 
     session.add(models.RobotLog(
         robot_id=robot_log.robot_id,

@@ -1,7 +1,5 @@
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
-from gmqtt import Client as MQTTClient
-from fastapi_mqtt import FastMQTT, MQTTConfig
 
 from domain.user import user_router
 from domain.cctv import cctv_router
@@ -56,5 +54,9 @@ def setup(session: Session=Depends(get_session)) -> None:
 async def func():
     fast_mqtt.publish("/mqtt_blessian", "Hello from Fastapi", 2)  # publishing mqtt topic
     return {"result": True, "message": "Published"}
+
+@app.get("/alert")
+def alert() -> None:
+    pass
 
 app.include_router(router)
