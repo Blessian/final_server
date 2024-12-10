@@ -1,61 +1,40 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useQuery } from 'react-query';
-import { 
-  List, 
-  ListItem, 
-  ListItemText, 
-  Paper, 
-  CircularProgress,
-  TextField,
-  MenuItem
-} from '@mui/material';
+import { List, ListItem, ListItemText, Paper, CircularProgress, Box } from '@mui/material';
 import { apiClient } from '../../api/apiClient';
 
 function ChatList() {
-  const [selectedRobotId, setSelectedRobotId] = useState(0);
-
-  const { data, isLoading, isError } = useQuery(
-    ['chatLogs', selectedRobotId],
-    async () => {
-      const response = await apiClient.getChatLogs(selectedRobotId);
-      return response.data;
-    }
-  );
+  const { data, isLoading, isError } = useQuery('chatLogs', async () => {
+    const response = await apiClient.getChatLogs();
+    return response.data;
+  });
 
   if (isLoading) {
-    return <CircularProgress />;
+    return <CircularProgress size={20} />;
   }
 
   if (isError) {
-    return <div>Error loading chat logs</div>;
+    return <Box sx={{ color: 'error.main' }}>Error loading chat logs</Box>;
   }
 
-  return (
-    <>
-      <TextField
-        select
-        label="Select Robot"
-        value={selectedRobotId}
-        onChange={(e) => setSelectedRobotId(e.target.value)}
-        fullWidth
-        sx={{ mb: 2 }}
-      >
-        <MenuItem value={1}>Robot 1</MenuItem>
-      </TextField>
+  // 최대 5개만 표시
+  const displayData = data?.slice(0, 5) || [];
 
-      <List>
-        {data?.map((log) => (
-          <Paper key={log.log_id} sx={{ mb: 1 }}>
-            <ListItem>
-              <ListItemText
-                primary={log.content}
-                secondary={`Time: ${new Date(log.registered).toLocaleString()}`}
-              />
-            </ListItem>
-          </Paper>
-        ))}
-      </List>
-    </>
+  return (
+    <List disablePadding>
+      {displayData.map((chat) => (
+        <Paper key={chat.log_id} sx={{ mb: 0.5 }}>
+          <ListItem dense>
+            <ListItemText
+              primary={`Log ID: ${chat.log_id}`}
+              secondary={`Robot ID: ${chat.robot_id} | Message: ${chat.content}`}
+              primaryTypographyProps={{ fontSize: '0.9rem' }}
+              secondaryTypographyProps={{ fontSize: '0.8rem' }}
+            />
+          </ListItem>
+        </Paper>
+      ))}
+    </List>
   );
 }
 

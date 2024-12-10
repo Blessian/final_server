@@ -13,6 +13,10 @@ router: APIRouter = APIRouter(prefix="/weerobot/api/robot/log/chat")
 def create_cctv(chat_log: chat_schema.ChatLogCreate, session: Session=Depends(get_session)) -> None:
     chat_crud.create_log(session, chat_log)
 
+@router.get("/", response_model=List[chat_schema.ChatLog])
+def read_chats(session: Session=Depends(get_session)) -> List[chat_schema.ChatLog]:
+    return chat_crud.read_chats(session)
+
 @router.get("/{robot_id}", response_model=List[chat_schema.ChatLog])
 def read_log_chats(robot_id: int, session: Session=Depends(get_session)) -> List[chat_schema.ChatLog]:
     return chat_crud.read_log_chats(session, robot_id)

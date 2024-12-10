@@ -7,7 +7,7 @@ export const useSocket = () => {
   const { setVideoModalOpen, setCurrentVideo } = useStore();
 
   useEffect(() => {
-    socketRef.current = io('http://127.0.0.1:8000');
+    socketRef.current = io('http://localhost:5000');
 
     socketRef.current.on('connect', () => {
       console.log('Socket connected');

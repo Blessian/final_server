@@ -1,6 +1,6 @@
 import React from 'react';
 import { useQuery } from 'react-query';
-import { List, ListItem, ListItemText, Paper, CircularProgress } from '@mui/material';
+import { List, ListItem, ListItemText, Paper, CircularProgress, Box } from '@mui/material';
 import { apiClient } from '../../api/apiClient';
 
 function RobotLogList() {
@@ -10,21 +10,26 @@ function RobotLogList() {
   });
 
   if (isLoading) {
-    return <CircularProgress />;
+    return <CircularProgress size={20} />;
   }
 
   if (isError) {
-    return <div>Error loading robot logs</div>;
+    return <Box sx={{ color: 'error.main' }}>Error loading robot logs</Box>;
   }
 
+  // 최대 5개만 표시
+  const displayData = data?.slice(0, 5) || [];
+
   return (
-    <List>
-      {data?.map((log) => (
-        <Paper key={log.log_id} sx={{ mb: 1 }}>
-          <ListItem>
+    <List disablePadding>
+      {displayData.map((log) => (
+        <Paper key={log.log_id} sx={{ mb: 0.5 }}>
+          <ListItem dense>
             <ListItemText
               primary={`Log ID: ${log.log_id}`}
-              secondary={`Robot ID: ${log.robot_id} | Status: ${log.status} | Time: ${new Date(log.registered).toLocaleString()}`}
+              secondary={`Robot ID: ${log.robot_id} | Status: ${log.status} | Time: ${log.registered}`}
+              primaryTypographyProps={{ fontSize: '0.9rem' }}
+              secondaryTypographyProps={{ fontSize: '0.8rem' }}
             />
           </ListItem>
         </Paper>

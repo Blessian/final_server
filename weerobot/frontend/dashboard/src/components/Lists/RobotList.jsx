@@ -17,14 +17,19 @@ function RobotList() {
     return <Box sx={{ color: 'error.main' }}>Error loading robots</Box>;
   }
 
+  // 최대 5개만 표시
+  const displayData = data?.slice(0, 5) || [];
+
   return (
-    <List sx={{ maxHeight: '200px', overflow: 'auto' }}>
-      {data?.map((robot) => (
-        <Paper key={robot.robot_id} sx={{ mb: 1 }}>
+    <List disablePadding>
+      {displayData.map((robot) => (
+        <Paper key={robot.robot_id} sx={{ mb: 0.5 }}>
           <ListItem dense>
             <ListItemText
               primary={`Robot ID: ${robot.robot_id}`}
               secondary={`Status: ${robot.status}`}
+              primaryTypographyProps={{ fontSize: '0.9rem' }}
+              secondaryTypographyProps={{ fontSize: '0.8rem' }}
             />
           </ListItem>
         </Paper>
